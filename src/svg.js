@@ -14,7 +14,12 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
         .attr('width', rectWidth)
         .attr('height', recthight)
         .attr('stroke', 'black')
-        .attr('fill', '#69a3b2');
+        .attr('fill', '#69a3b2')
+        // .on('click', function(event, data) {
+        //     plaindata = removeChildOf(3)
+        //     var data = getUniquAndMultipleData(plaindata);
+        //     update(data.uniqData, data.multipleData);
+        // });
 
     svgG.append("text")
         .attr("x", (d) => { return d.y + (rectWidth / 2) })
@@ -23,8 +28,10 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
         .style("text-anchor", "middle")
         .attr("fill", "#fff")
         .text((t) => {
-            return `Porcha No: ${t.data.porchaNo}`
-        });
+            return `(${t.data.uuid}) Porcha No: ${t.data.porchaNo}`
+        }).attr('pointer-events', 'none');
+    // svgG
+    // .transition()
 }
 
 
