@@ -21,7 +21,7 @@ function getNewLink(linksData, multipleData) {
 
         }
     }
-    console.log(newLinks)
+    // console.log(newLinks)
     return [...linksData, ...newLinks];
 }
 
@@ -42,12 +42,24 @@ function getUniquAndMultipleData(data) {
     }
 }
 
-function removeChildOf(uuid){
-    var childs = plaindata.filter(e=> e.parent !== uuid);
-    // for (let i = 0; i < childs.length; i++) {
-    //     const element = childs[i];
-        
+function removeChildOf(uuid) {
+    var childs = null;
+    var parent = plaindata.filter(e => e.parent == null && e.uuid === uuid);
+    if (parent.length > 0) {
+        childs = parent;
+    } else {
+        childs = plaindata.filter(e => e.parent !== uuid);
+    }
+    return childs;
+}
+
+function addAllChildOf(uuid) {
+    var childs = null;
+    // var parent = plaindata.filter(e => e.parent == null && e.uuid === uuid);
+    // if (parent.length > 0) {
+    //     childs = parent;
+    // } else {
+        childs = plaindata.filter(e => e.parent === uuid);
     // }
-    console.log(childs)
     return childs;
 }

@@ -13,10 +13,10 @@
     var data = getUniquAndMultipleData(plaindata);
     update(data.uniqData, data.multipleData);
 
-    function update(uniqData, multipleData){
+    function update(uniqData, multipleData) {
         var root = d3.stratify()
-        .id(function (d) { return d.uuid })
-        .parentId(function (d) { return d.parent })(uniqData);
+            .id(function (d) { return d.uuid })
+            .parentId(function (d) { return d.parent })(uniqData);
         var treeData = d3.tree()
             .separation(function (a, b) { return (a.parent == b.parent ? 1 : 2); })
             .size([height - 100, width - 160])
@@ -30,13 +30,21 @@
 
         var allRect = d3.selectAll("#khatian").selectAll('rect');
         allRect
-        .on('click', function(event, data) {
-            plaindata = removeChildOf(3)
-            var data = getUniquAndMultipleData(plaindata);
-            d3.selectAll("#khatian").select('svg').remove()
-            update(data.uniqData, data.multipleData);
-        });
-        console.log(allRect)
+            .on('click', function (event, nodeData) {
+                // console.log(this)
+                if (nodeData.collaps) {
+                    plaindata = addAllChildOf(nodeData.data.uuid)
+                    nodeData.collaps = false;
+                } else {
+                    plaindata = removeChildOf(nodeData.data.uuid)
+                    nodeData.collaps = true;
+                }
+                var data = getUniquAndMultipleData(plaindata);
+                d3.selectAll("#khatian").select('svg').remove()
+                update(data.uniqData, data.multipleData);
+                console.log(nodeData)
+
+            });
     }
 })();
 

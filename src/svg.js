@@ -16,9 +16,11 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
         .attr('stroke', 'black')
         .attr('fill', '#69a3b2')
         // .on('click', function(event, data) {
-        //     plaindata = removeChildOf(3)
-        //     var data = getUniquAndMultipleData(plaindata);
-        //     update(data.uniqData, data.multipleData);
+        //     console.log(event)
+        //     // d3.select(this).attr('class', 'cllaps')
+        //     // plaindata = removeChildOf(3)
+        //     // var data = getUniquAndMultipleData(plaindata);
+        //     // update(data.uniqData, data.multipleData);
         // });
 
     svgG.append("text")
