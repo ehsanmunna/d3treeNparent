@@ -3,13 +3,12 @@
 
 (function () {
 
-    var height = 300;
-    var width = 800;
+    var height = 500;
+    var width = 1000;
     var rectWidth = 150;
     var recthight = 50;
+    var nodeGap = rectWidth + 50;
 
-    // remove child of a parent test perpose
-    // plaindata = removeChildOf(3)
     var data = getUniquAndMultipleData(plaindata);
     update(data.uniqData, data.multipleData);
     var plaindataCopy = JSON.parse(JSON.stringify(plaindata));
@@ -18,45 +17,58 @@
             .id(function (d) { return d.uuid })
             .parentId(function (d) { return d.parent })(uniqData);
         var treeData = d3.tree()
-            .separation(function (a, b) { return (a.parent == b.parent ? 1 : 2); })
+        .nodeSize([50,150])
             .size([height - 100, width - 160])
             (root);
+        // treeData.forEach(function(d) {
+        //     d.y = (d.depth === 0 ? 50 : d.depth * 200);
+        //   })
+        chengeCord(treeData)
+        function chengeCord(d){
+            d.y = (d.depth === 0 ? 10 : d.depth * nodeGap);
+            if (d.children && d.children.length > 0) {
+                for (let i = 0; i < d.children.length; i++) {
+                    const element = d.children[i];
+                    chengeCord(element);
+                }
+            }
+        }
         var linksData = treeData.links();
         linksData = getNewLink(linksData, multipleData)
         var selection = d3.select("#khatian");
         var svg = selection.append("svg").attr("width", width).attr("height", height);
+
         renderRectangle(svg, treeData, rectWidth, recthight);
         renderLinks(svg, linksData, rectWidth, recthight);
-
+        // var t = d3.transition()
+        // .duration(750)
+        // .ease(d3.easeLinear)
         // var treeState = new Array();
 
         var allRect = d3.selectAll("#khatian").selectAll('rect');
-        allRect
-            .on('click', function (event, nodeData) {
-                var id = nodeData.data.uuid;
-                // if copy hase data and plaindata hase no data then its collaps
-                if (hasChild(id, plaindataCopy).state && hasChild(id, plaindata).state) {
-                    // plaindata = [...plaindata, ...hasChild(id).item]
-                    plaindata = removeChildOf(id)
-                }
-                else {
-                    plaindata = [...plaindata, ...hasChild(id, plaindataCopy).item]
-                }
+        // allRect.transition(t)
+        allRect.on('click', toggleChild);
 
+        function toggleChild(event, nodeData) {
+            var id = nodeData.data.uuid;
+            // if copy hase data and plaindata hase no data then its collaps
+            var hasChildFromCopy = hasChild(id, plaindataCopy);
+            if (hasChildFromCopy.state && hasChild(id, plaindata).state) {
+                plaindata = removeChildOf(id);
+            }
+            else {
+                plaindata = [...plaindata, ...hasChildFromCopy.item];
+            }
 
+            var data = getUniquAndMultipleData(plaindata);
+            d3.selectAll("#khatian").select('svg').remove()
+            update(data.uniqData, data.multipleData);
 
-                var data = getUniquAndMultipleData(plaindata);
-                d3.selectAll("#khatian").select('svg').remove()
-                update(data.uniqData, data.multipleData);
+            // console.log('plaindata', plaindata)
+            // console.log('plaindataCopy', plaindataCopy)
+            // console.log('has child', hasChild(nodeData.data.uuid, plaindataCopy));
 
-                // console.log(data.uniqData)
-                // console.log('treeState', treeState)
-                console.log('plaindata', plaindata)
-                console.log('plaindataCopy', plaindataCopy)
-                console.log('has child', hasChild(nodeData.data.uuid, plaindataCopy));
-
-            });
-
+        }
         function hasChild(id, items) {
             var child = items ? items.filter(e => e.parent == id) : [];
             return {

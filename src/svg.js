@@ -1,6 +1,7 @@
 /* funcations */
 
 function renderRectangle(svg, treeData, rectWidth, recthight) {
+    
     var svgG = svg
         .selectAll('g')
         .data(treeData)
@@ -9,19 +10,16 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
 
     // Add rectangle
     svgG.append('rect')
+        // .transition(t)
         .attr('x', (d) => { return d.y })
         .attr('y', (d) => { return d.x })
+        .attr('rx', 5)
+        .attr('ry', 5)
         .attr('width', rectWidth)
         .attr('height', recthight)
         .attr('stroke', 'black')
-        .attr('fill', '#69a3b2')
-        // .on('click', function(event, data) {
-        //     console.log(event)
-        //     // d3.select(this).attr('class', 'cllaps')
-        //     // plaindata = removeChildOf(3)
-        //     // var data = getUniquAndMultipleData(plaindata);
-        //     // update(data.uniqData, data.multipleData);
-        // });
+        .attr('fill', '#228B22')
+        
 
     svgG.append("text")
         .attr("x", (d) => { return d.y + (rectWidth / 2) })
@@ -31,9 +29,8 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
         .attr("fill", "#fff")
         .text((t) => {
             return `(${t.data.uuid}) Porcha No: ${t.data.porchaNo}`
-        }).attr('pointer-events', 'none');
-    // svgG
-    // .transition()
+        })
+        .attr('pointer-events', 'none');
 }
 
 
@@ -52,8 +49,11 @@ function renderLinks(svg, linksData, rectWidth, recthight) {
         .data(linksData)
         .enter()
         .append("svg:path")
+        // .attr('marker-start', 'url(#pointer)')
         .attr("class", "link")
         .attr("fill", "none")
-        .attr("stroke", "#000")
+        // .style("stroke-width", function(d) { return Math.sqrt(d.value)})
+        .style("stroke-width", 1)
+        .attr("stroke", "#2c2c2c")
         .attr("d", diagonal)
 }

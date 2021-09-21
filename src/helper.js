@@ -46,7 +46,7 @@ function removeChildOf(uuid) {
     var childs = null;
     var parent = plaindata.filter(e => e.parent == null && e.uuid === uuid);
     if (parent.length > 0) {
-        childs = parent;
+        childs = parent;    
     } else {
         childs = plaindata.filter(e => e.parent !== uuid);
     }
