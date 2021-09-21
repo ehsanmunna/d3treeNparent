@@ -12,7 +12,7 @@
     // plaindata = removeChildOf(3)
     var data = getUniquAndMultipleData(plaindata);
     update(data.uniqData, data.multipleData);
-
+    var plaindataCopy = JSON.parse(JSON.stringify(plaindata));
     function update(uniqData, multipleData) {
         var root = d3.stratify()
             .id(function (d) { return d.uuid })
@@ -28,23 +28,42 @@
         renderRectangle(svg, treeData, rectWidth, recthight);
         renderLinks(svg, linksData, rectWidth, recthight);
 
+        // var treeState = new Array();
+
         var allRect = d3.selectAll("#khatian").selectAll('rect');
         allRect
             .on('click', function (event, nodeData) {
-                // console.log(this)
-                if (nodeData.collaps) {
-                    plaindata = addAllChildOf(nodeData.data.uuid)
-                    nodeData.collaps = false;
-                } else {
-                    plaindata = removeChildOf(nodeData.data.uuid)
-                    nodeData.collaps = true;
+                var id = nodeData.data.uuid;
+                // if copy hase data and plaindata hase no data then its collaps
+                if (hasChild(id, plaindataCopy).state && hasChild(id, plaindata).state) {
+                    // plaindata = [...plaindata, ...hasChild(id).item]
+                    plaindata = removeChildOf(id)
                 }
+                else {
+                    plaindata = [...plaindata, ...hasChild(id, plaindataCopy).item]
+                }
+
+
+
                 var data = getUniquAndMultipleData(plaindata);
                 d3.selectAll("#khatian").select('svg').remove()
                 update(data.uniqData, data.multipleData);
-                console.log(nodeData)
+
+                // console.log(data.uniqData)
+                // console.log('treeState', treeState)
+                console.log('plaindata', plaindata)
+                console.log('plaindataCopy', plaindataCopy)
+                console.log('has child', hasChild(nodeData.data.uuid, plaindataCopy));
 
             });
+
+        function hasChild(id, items) {
+            var child = items ? items.filter(e => e.parent == id) : [];
+            return {
+                state: child.length > 0,
+                item: child
+            }
+        }
     }
 })();
 
