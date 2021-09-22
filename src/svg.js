@@ -11,6 +11,7 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
     // Add rectangle
     svgG.append('rect')
         // .transition(t)
+        .attr('id', function(d) { return 'nodeInfoID' + d.id; })
         .attr('x', (d) => { return d.y })
         .attr('y', (d) => { return d.x })
         .attr('rx', 5)
@@ -18,7 +19,7 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
         .attr('width', rectWidth)
         .attr('height', recthight)
         .attr('stroke', 'black')
-        .attr('fill', '#228B22')
+        .attr('fill', '#00A773')
         
 
     svgG.append("text")
