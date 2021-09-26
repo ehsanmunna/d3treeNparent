@@ -12,11 +12,14 @@ function getNewLink(linksData, multipleData) {
             for (let j = 0; j < findFromMultipleData.length; j++) {
                 const elem = findFromMultipleData[j];
                 var parentSource = linksData.filter(e => e.target.data.uuid === elem.parent);
-                var parentSourceElem = parentSource[0].target;
-                newLinks.push({
-                    source: parentSourceElem,
-                    target: element.target
-                })
+                if (parentSource.length > 0) {
+                    var parentSourceElem = parentSource[0].target;
+                    newLinks.push({
+                        source: parentSourceElem,
+                        target: element.target
+                    })
+                }
+
             }
 
         }
@@ -46,12 +49,35 @@ function removeChildOf(uuid) {
     var childs = null;
     var parent = plaindata.filter(e => e.parent == null && e.uuid === uuid);
     if (parent.length > 0) {
-        childs = parent;    
+        childs = parent;
     } else {
         childs = plaindata.filter(e => e.parent !== uuid);
+        // finaly validate data and remove unnecessary data;
+        var validData = [];
+        childs.forEach(element => {
+            var parentExist = childs.filter(e=> e.uuid == element.parent).length > 0;
+            if (element.parent == null || parentExist) {
+                validData.push(element);
+            }
+        });
+        childs = validData;
     }
+    // removeChildFromTree();
     return childs;
 }
+
+// function removeChildFromTree(uuid) {
+//     var root = d3.stratify()
+//         .id(function (d) { return d.uuid })
+//         .parentId(function (d) { return d.parent })(plaindata);
+
+//     var treeData = d3.tree()
+//         .nodeSize([50, 150])
+//         .size([400, 1000 - 160])
+//         (root);
+//     console.log(treeData)
+
+// }
 
 function addAllChildOf(uuid) {
     var childs = null;
@@ -59,7 +85,8 @@ function addAllChildOf(uuid) {
     // if (parent.length > 0) {
     //     childs = parent;
     // } else {
-        childs = plaindata.filter(e => e.parent === uuid);
+    childs = plaindata.filter(e => e.parent === uuid);
     // }
     return childs;
 }
+

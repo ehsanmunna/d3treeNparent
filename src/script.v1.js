@@ -8,41 +8,24 @@
     var rectWidth = 100;
     var recthight = 75;
     var nodeGap = rectWidth + 50;
-    var renderLevel = 2;
 
-    var data = getUniquAndMultipleData(plaindata);
-    update(data.uniqData, data.multipleData);
-    var plaindataCopy = JSON.parse(JSON.stringify(plaindata));
-    function update(uniqData, multipleData) {
+    
+    update(plaindata);
+    function update(uniqData) {
         var root = d3.stratify()
             .id(function (d) { return d.uuid })
-            .parentId(function (d) { return d.parent })(uniqData);
+            .parentId(function (d) { 
+                console.log('inside parentId of stratify ', d)
+                return d.parent 
+            })(uniqData);
+        console.log(root)
         var treeData = d3.tree()
-            .nodeSize([50, 150])
+        .nodeSize([50,150])
             .size([height - 100, width - 160])
             (root);
-        // treeData.forEach(function(d) {
-        //     d.y = (d.depth === 0 ? 50 : d.depth * 200);
-        //   })
-        chengeCord(treeData)
-        function chengeCord(d) {
-            // d = changeDepth(d);
-            d.y = (d.depth === 0 ? 10 : d.depth * nodeGap);
-            if (d.children && d.children.length > 0) {
-                for (let i = 0; i < d.children.length; i++) {
-                    const element = d.children[i];
-                    chengeCord(element);
-                }
-            }
-        }
-        // function changeDepth(d) {
-        //     if (d.data.porchaNo === 1300) {
-        //         d.depth += 1
-        //     }
-        //     return d;
-        // }
+        console.log(treeData)
         var linksData = treeData.links();
-        linksData = getNewLink(linksData, multipleData)
+        console.log(linksData)
         var selection = d3.select("#khatian");
         var svg = selection.append("svg").attr("width", width).attr("height", height);
 
@@ -84,7 +67,6 @@
                 item: child
             }
         }
-
     }
 })();
 

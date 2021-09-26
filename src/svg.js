@@ -20,6 +20,8 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
         .attr('height', recthight)
         .attr('stroke', 'black')
         .attr('fill', '#00A773')
+        // .attr("cursor", "move")
+        // .call(d3.drag())
 
 
     var foreignObject = svgG.append("foreignObject")
@@ -31,20 +33,22 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
         .append('xhtml:div')
         .attr('class', 'node-wrap')
 
-        foreignObject.append('xhtml:div')
-            .attr('class', 'node-wrap-separator')
-            .html((d) => { return `${d.data.porchaNo}` })
-            .append('button')
-            .attr('class', 'node-button')
-            .append('img')
-            .attr('src', 'http://localhost:8000/new_homepage_resources/images/khotian-logo.png')
-        foreignObject.append('xhtml:div')
-            .attr('class', 'node-wrap-separator node-wrap-header')
-            .html((d) => { return `Total Land: ${d.data.land}` })
-        foreignObject.append('xhtml:div')
-            .attr('class', 'node-wrap-separator')
-            .html((d) => { return `Jan 1900` })
-            
+    foreignObject.append('xhtml:div')
+        .attr('class', 'node-wrap-separator')
+        .html((d) => { return `${d.data.porchaNo}` })
+        .append('button')
+        .attr('class', 'node-button')
+    // .append('img')
+    // // .attr('src', 'http://localhost:8000/new_homepage_resources/images/khotian-logo.png')
+    foreignObject.append('xhtml:div')
+        .attr('class', 'node-wrap-separator node-wrap-header')
+        .html((d) => { return `Total Land: ${d.data.land}` })
+    foreignObject.append('xhtml:div')
+        .attr('class', 'node-wrap-separator')
+        .html((d) => { return `Jan 1900` })
+
+    svgG.append('rect').exit().remove()
+
 }
 
 
