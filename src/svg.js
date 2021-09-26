@@ -1,7 +1,7 @@
 /* funcations */
 
 function renderRectangle(svg, treeData, rectWidth, recthight) {
-    
+
     var svgG = svg
         .selectAll('g')
         .data(treeData)
@@ -11,7 +11,7 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
     // Add rectangle
     svgG.append('rect')
         // .transition(t)
-        .attr('id', function(d) { return 'nodeInfoID' + d.id; })
+        .attr('id', function (d) { return 'nodeInfoID' + d.id; })
         .attr('x', (d) => { return d.y })
         .attr('y', (d) => { return d.x })
         .attr('rx', 5)
@@ -20,18 +20,31 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
         .attr('height', recthight)
         .attr('stroke', 'black')
         .attr('fill', '#00A773')
-        
 
-    svgG.append("text")
-        .attr("x", (d) => { return d.y + (rectWidth / 2) })
-        .attr("y", (d) => { return d.x + (recthight / 2) })
-        .attr("dy", ".35em")
-        .style("text-anchor", "middle")
-        .attr("fill", "#fff")
-        .text((t) => {
-            return `(${t.data.uuid}) Porcha No: ${t.data.porchaNo}`
-        })
-        .attr('pointer-events', 'none');
+
+    var foreignObject = svgG.append("foreignObject")
+        .attr('x', (d) => { return d.y })
+        .attr('y', (d) => { return d.x })
+
+        .attr('width', rectWidth)
+        .attr('height', recthight)
+        .append('xhtml:div')
+        .attr('class', 'node-wrap')
+
+        foreignObject.append('xhtml:div')
+            .attr('class', 'node-wrap-separator')
+            .html((d) => { return `${d.data.porchaNo}` })
+            .append('button')
+            .attr('class', 'node-button')
+            .append('img')
+            .attr('src', 'http://localhost:8000/new_homepage_resources/images/khotian-logo.png')
+        foreignObject.append('xhtml:div')
+            .attr('class', 'node-wrap-separator node-wrap-header')
+            .html((d) => { return `Total Land: ${d.data.land}` })
+        foreignObject.append('xhtml:div')
+            .attr('class', 'node-wrap-separator')
+            .html((d) => { return `Jan 1900` })
+            
 }
 
 

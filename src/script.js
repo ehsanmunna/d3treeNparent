@@ -5,8 +5,8 @@
 
     var height = 500;
     var width = 1000;
-    var rectWidth = 150;
-    var recthight = 50;
+    var rectWidth = 100;
+    var recthight = 75;
     var nodeGap = rectWidth + 50;
 
     var data = getUniquAndMultipleData(plaindata);
@@ -45,7 +45,7 @@
         // .ease(d3.easeLinear)
         // var treeState = new Array();
 
-        var allRect = d3.selectAll("#khatian").selectAll('rect');
+        var allRect = d3.selectAll("#khatian").selectAll('foreignObject');
         // allRect.transition(t)
         allRect.on('click', toggleChild);
 

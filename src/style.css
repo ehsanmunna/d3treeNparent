@@ -2,6 +2,28 @@ svg{
     background: #F6F6F6;
 }
 
+.node-wrap{
+    color: #fff;
+    text-align: center;
+    font-size: 0.8em;
+}
+.node-button{
+    height: 22px;
+    width: 22px ;
+    padding: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.node-button img{
+    height: 22px;
+    width: 22px ;
+}
+.node-wrap-header{
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
 path, polyline {
     fill: 'none';
     stroke: #231F20;
