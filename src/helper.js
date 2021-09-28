@@ -62,31 +62,12 @@ function removeChildOf(uuid) {
         });
         childs = validData;
     }
-    // removeChildFromTree();
     return childs;
 }
 
-// function removeChildFromTree(uuid) {
-//     var root = d3.stratify()
-//         .id(function (d) { return d.uuid })
-//         .parentId(function (d) { return d.parent })(plaindata);
-
-//     var treeData = d3.tree()
-//         .nodeSize([50, 150])
-//         .size([400, 1000 - 160])
-//         (root);
-//     console.log(treeData)
-
-// }
-
 function addAllChildOf(uuid) {
     var childs = null;
-    // var parent = plaindata.filter(e => e.parent == null && e.uuid === uuid);
-    // if (parent.length > 0) {
-    //     childs = parent;
-    // } else {
     childs = plaindata.filter(e => e.parent === uuid);
-    // }
     return childs;
 }
 

@@ -3,6 +3,7 @@
 
 (function () {
 
+    // Configurations
     var height = 500;
     var width = 1000;
     var rectWidth = 100;
@@ -10,15 +11,22 @@
     var nodeGap = rectWidth + 50;
     var renderLevel = 2;
 
+    // Separate data for node and link
     var data = getUniquAndMultipleData(plaindata);
+    // Call Update
     update(data.uniqData, data.multipleData);
     var plaindataCopy = JSON.parse(JSON.stringify(plaindata));
+    /**
+     * Main function to create/update tree
+     * @param {*} uniqData Input unique data to generate data
+     * @param {*} multipleData Imput multiple data to create link for multiple parent
+     */
     function update(uniqData, multipleData) {
         var root = d3.stratify()
             .id(function (d) { return d.uuid })
             .parentId(function (d) { return d.parent })(uniqData);
         var treeData = d3.tree()
-            .nodeSize([50, 150])
+            // .nodeSize([50, 150])
             .size([height - 100, width - 160])
             (root);
         // treeData.forEach(function(d) {

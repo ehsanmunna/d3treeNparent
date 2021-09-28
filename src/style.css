@@ -24,9 +24,8 @@ svg{
     font-weight: 700;
 }
 
-path, polyline {
+/* path, polyline {
     fill: 'none';
     stroke: #231F20;
-    /* vector-effect: non-scaling-st    roke; */
     stroke-width: 1;
-}
+} */

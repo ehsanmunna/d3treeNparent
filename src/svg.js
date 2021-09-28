@@ -18,7 +18,8 @@ function renderRectangle(svg, treeData, rectWidth, recthight) {
         .attr('ry', 5)
         .attr('width', rectWidth)
         .attr('height', recthight)
-        .attr('stroke', 'black')
+        // .attr('stroke', 'black')
+        .attr('stroke', '#005E42')
         .attr('fill', '#00A773')
         // .attr("cursor", "move")
         // .call(d3.drag())
@@ -72,6 +73,7 @@ function renderLinks(svg, linksData, rectWidth, recthight) {
         .attr("fill", "none")
         // .style("stroke-width", function(d) { return Math.sqrt(d.value)})
         .style("stroke-width", 1)
-        .attr("stroke", "#2c2c2c")
+        .attr("stroke", "#005E42")
+        // .attr("stroke", "#2c2c2c")
         .attr("d", diagonal)
 }
